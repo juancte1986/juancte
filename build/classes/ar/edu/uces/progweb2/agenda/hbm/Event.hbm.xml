@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="ar.edu.uces.progweb2.agenda.model.Event" table="evento">
+		<id column="eventoId" name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" column="nombre" />
+		<property name="date" column="fecha" />
+		<property name="startTime" column="horaInicio" />
+		<property name="endTime" column="horaFin" />
+		<many-to-one class="ar.edu.uces.progweb2.agenda.model.User" 
+			name="owner"
+			cascade="none"
+			lazy="false"
+			column="usuarioId"/>
+		<joined-subclass name="ar.edu.uces.progweb2.agenda.model.Meeting" table="reunion">
+	      	<key column="eventoId"/>
+	       	<property name="theme" column="tema"/>
+	       	<many-to-one class="ar.edu.uces.progweb2.agenda.model.Hall" 
+				name="hall"
+				lazy="false"
+				column="salaId"
+				cascade="none"/>
+			<set name="guests" cascade="all" lazy="false" >
+				<key column="eventoId" not-null="true"/>
+				<one-to-many class="ar.edu.uces.progweb2.agenda.model.Guest"/>
+			</set>
+	   	</joined-subclass>
+	   	<joined-subclass name="ar.edu.uces.progweb2.agenda.model.PrivateEvent" table="evento_privado">
+	      	<key column="eventoId"/>
+	       	<property name="description" column="descripcion"/>
+	       	<property name="address" column="direccion"/>
+	   	</joined-subclass>
+	</class>
+</hibernate-mapping>
