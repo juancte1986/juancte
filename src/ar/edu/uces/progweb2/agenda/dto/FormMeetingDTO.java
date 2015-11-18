@@ -6,11 +6,27 @@ public class FormMeetingDTO extends FormEventDTO {
 	private Long hallId;
 	private String guestsNames;
 	private String guestsIds;
-	private boolean isConfirm = false;
+	private boolean confirmMeeting = false;
+	private boolean rejectedMeeting = false;
 	private boolean isOwner = false;
 	private boolean isGuest = false;
 	
-	
+
+	public boolean getRejectedMeeting() {
+		return rejectedMeeting;
+	}
+
+	public void setRejectedMeeting(boolean rejectedMeeting) {
+		this.rejectedMeeting = rejectedMeeting;
+	}
+
+	public boolean getConfirmMeeting() {
+		return confirmMeeting;
+	}
+
+	public void setConfirmMeeting(boolean confirmMeeting) {
+		this.confirmMeeting = confirmMeeting;
+	}
 
 	public String getGuestsIds() {
 		return guestsIds;
@@ -26,14 +42,6 @@ public class FormMeetingDTO extends FormEventDTO {
 
 	public void setIsGuest(boolean isGuest) {
 		this.isGuest = isGuest;
-	}
-
-	public boolean getIsConfirm() {
-		return isConfirm;
-	}
-
-	public void setIsConfirm(boolean isConfirm) {
-		this.isConfirm = isConfirm;
 	}
 
 	public boolean getIsOwner() {

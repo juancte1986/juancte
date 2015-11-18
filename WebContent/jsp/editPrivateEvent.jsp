@@ -80,7 +80,7 @@
 					<c:param name="id" value='${formPrivateEvent.id}'/> 
 				</c:url>
 				<a href='${url}'><fmt:message key="label.delete"/></a>
-				<a href='<c:url value="/returnCalendar.htm" />'><fmt:message key="label.cancel"/></a>
+				<a href='<c:url value="/calendar.htm" />'><fmt:message key="label.cancel"/></a>
 			</form:form>
 		</div>
 	</body>

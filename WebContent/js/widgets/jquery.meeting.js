@@ -5,7 +5,8 @@ $.widget('custom.applyMeeting',
 		guestsNames : {},
 		isOwner : false,
 		isGuest : false,
-		isConfirm : false
+		isConfirmMeeting:false,
+		isRejectedMeeting:false
 
 	},
 
@@ -20,7 +21,8 @@ $.widget('custom.applyMeeting',
 		this.guestsNames = this.options.guestsNames;
 		this.isOwner = this.options.isOwner;
 		this.isGuest = this.options.isGuest;
-		this.isConfirm = this.options.isConfirm;
+		this.isConfirmMeeting = this.options.isConfirmMeeting;
+		this.isRejectedMeeting = this.options.isConfirmMeeting;
 		this.date = this.element.find("#datepicker");
 		this.inputGuest = this.element.find("#inputGuest");
 		this.guestsIds = this.element.find("#guestsIds");
@@ -30,7 +32,6 @@ $.widget('custom.applyMeeting',
 	},
 
 	_initialize : function() {
-		debugger;
 		this._createDatePicker();
 		this._createAtocompletar();
 		this._loadGuestNames();
@@ -40,7 +41,7 @@ $.widget('custom.applyMeeting',
 	},
 
 	_loadGuestsIds : function() {
-		var string = ""
+		var string = "";
 		for (var i = 0; i < this.guestsNames.length; i++) {
 			var array = this.guestsNames[i].split(",");
 			if (i == (this.guestsNames.length - 1)) {
@@ -56,12 +57,11 @@ $.widget('custom.applyMeeting',
 		if (this.isOwner) {
 			this.element.find(".guest").hide();
 		}
-
 		if (this.isGuest) {
 			this.element.find(".linkDelete").hide();// no se puede deshabilitar un href
 			this.element.find(".owner").attr("disabled",
 					"disabled");
-			if (this.isConfirm) {
+			if (this.isConfirmMeeting || this.isRejectedMeeting ) {
 				this.element.find(".guest").attr("disabled",
 						"disabled");
 				this.element.find("#btn-edit").attr("disabled",
@@ -145,8 +145,20 @@ $.widget('custom.applyMeeting',
 	_loadGuestNames : function() {
 		for (var i = 0; i < this.guestsNames.length; i++) {
 			var guest = this.guestsNames[i].split(",");
-			$('<li class="ui-state-default li-user" value=' + guest[1] + '>' + guest[0]	+ ' <a class="itemDelete linkDelete" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"/></a></li>')
-					.appendTo(this.ulGuests);
+			var state = "";
+			
+			if(guest.confirmMeeting){
+				state = '<span class="glyphicon glyphicon-ok-circle"/>';
+			}
+			else if(guest.rejectedMeeting){
+				state = '<span class="glyphicon glyphicon-ban-circle"/>';
+			} else {
+				state = '<span class="glyphicon glyphicon-exclamation-sign"/>';
+			}
+			
+			$('<li class="ui-state-default li-user" value=' + guest[1] + '>' + guest[0]
+				+ ' <a class="itemDelete linkDelete" href="#"><span class="glyphicon glyphicon-trash"/> ' + state + '</a></li>')
+				.appendTo(this.ulGuests);
 		}
 	},
 

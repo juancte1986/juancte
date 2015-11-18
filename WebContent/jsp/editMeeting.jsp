@@ -72,11 +72,8 @@
 				<br />
 				<!--Solo si sos invitado, si se pone en true, no se modifica mas-->
 				
-				<form:label class="guest" path="isConfirm">
-					<fmt:message key="label.confirm" />
-				</form:label>
-				<form:checkbox class="guest" path="isConfirm" />
-				<br />
+				<form:button class="guest" path="confirMeeting" value="true" ><fmt:message key="label.confirm" /></form:button>
+				<form:button calss="guest" path="rejectedMeeting" value="true" ><fmt:message key="label.rejected" /></form:button>
 				
 				<!--invitados-->
 				<fmt:message key="label.guests" />
@@ -100,7 +97,7 @@
 					<c:param name="id" value='${formMeeting.id}'/> 
 			</c:url>
 			<a class="linkDelete" href='${urlDelete}'><fmt:message key="label.delete"/></a>
-			<a href='<c:url value="/returnCalendar.htm" />'><fmt:message key="label.cancel" /></a>
+			<a href='<c:url value="/calendar.htm" />'><fmt:message key="label.cancel" /></a>
 		</div>
 				
 		<!-- js -->
@@ -114,7 +111,8 @@
 						guestsNames: ${formMeeting.guestsNames},
 						isOwner:${formMeeting.isOwner},
 						isGuest:${formMeeting.isGuest},
-						isConfirm:${formMeeting.isConfirm},
+						isConfirmMeeting:${formMeeting.confirmMeeting },
+						isRejectedMeeting:${formMeeting.rejectedMeeting}
 					});
 				});
 		</script>

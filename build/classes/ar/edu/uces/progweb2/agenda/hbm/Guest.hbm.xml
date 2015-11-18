@@ -7,7 +7,8 @@
 		<id column="id" name="id">
 			<generator class="native" />
 		</id>
-		<property column="confirmacion" name="confirm" />
+		<property column="reunionConfirmada" name="confirmMeeting" />
+		<property column="reunionRechazada" name="rejectedMeeting" />
 		<many-to-one name="user"
 			column="usuarioId"
 			cascade="none"

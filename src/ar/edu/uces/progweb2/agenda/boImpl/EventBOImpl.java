@@ -113,7 +113,7 @@ public class EventBOImpl implements EventBO{
 	@Override
 	public void setConfirmGuest(FormMeetingDTO eventDTO) {
 		Guest guest = this.guestDao.getGuest(eventDTO);
-		guest.setConfirm(eventDTO.getIsConfirm());
+		guest.setConfirmMeeting(eventDTO.getConfirmMeeting());
 		this.guestDao.update(guest);
 		
 	}

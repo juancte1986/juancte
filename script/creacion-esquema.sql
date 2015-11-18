@@ -60,7 +60,8 @@ create table invitado (
 	id integer not null AUTO_INCREMENT,
 	eventoId integer not null,
 	usuarioId integer not null,
-	confirmacion bool not null, 
+	reunionConfirmada bool not null, 
+    reunionRechazada bool not null, 
 	primary key(id),
 	FOREIGN KEY (usuarioId) REFERENCES usuario(id),
 	FOREIGN KEY (eventoId) REFERENCES reunion(eventoId)

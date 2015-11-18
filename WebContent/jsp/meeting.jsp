@@ -94,7 +94,7 @@
 				<ul id="ulGuests">
 				</ul>
 				<form:button><fmt:message key="label.save"/></form:button>
-				<a href='<c:url value="/returnCalendar.htm" />'><fmt:message key="label.cancel"/></a>
+				<a href='<c:url value="/calendar.htm" />'><fmt:message key="label.cancel"/></a>
 			</form:form>
 		</div>
 	</body>

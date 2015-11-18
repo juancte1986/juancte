@@ -7,15 +7,47 @@ public class DargEventDTO {
 	private String date;
 	private String startTime;
 	private String endTime;
-	private String estado;
-	private String tipo; 
+	private String type;
 	private int index;
 	private int top;
 	private int height;
-	private boolean isConfirm = false;
+	private boolean confirmMeeting = false;
+	private boolean rejectedMeeting = false;
 	private boolean isOwner = false;
 	private boolean isGuest = false;
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public boolean isConfirmMeeting() {
+		return confirmMeeting;
+	}
+
+	public void setConfirmMeeting(boolean confirmMeeting) {
+		this.confirmMeeting = confirmMeeting;
+	}
+
+	public boolean isRejectedMeeting() {
+		return rejectedMeeting;
+	}
+
+	public void setRejectedMeeting(boolean rejectedMeeting) {
+		this.rejectedMeeting = rejectedMeeting;
+	}
+
+	public void setOwner(boolean isOwner) {
+		this.isOwner = isOwner;
+	}
+
+	public void setGuest(boolean isGuest) {
+		this.isGuest = isGuest;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -23,21 +55,13 @@ public class DargEventDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public String getDate() {
 		return date;
 	}
 
 	public void setDate(String date) {
 		this.date = date;
-	}
-	
-	public boolean getIsConfirm() {
-		return isConfirm;
-	}
-
-	public void setIsConfirm(boolean isConfirm) {
-		this.isConfirm = isConfirm;
 	}
 
 	public boolean getIsOwner() {
@@ -78,22 +102,6 @@ public class DargEventDTO {
 
 	public void setHeight(int height) {
 		this.height = height;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 
 	public String getName() {

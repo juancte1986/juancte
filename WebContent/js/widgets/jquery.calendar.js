@@ -22,8 +22,8 @@ $.widget('custom.applyCalendar', {
 		this._loadEventsCallback(this._getCurrentDate());
 	},
 	
-	_createEventDrag : function(event,column) {
-		$(event).draggable({
+	_createEventDrag : function(clazz, column) {
+		$(clazz).draggable({
 			grid: [200,20],
 			containment : column,
 			start : $.proxy(this._setDrag, this),
@@ -147,11 +147,12 @@ $.widget('custom.applyCalendar', {
 	},
 	
 	_loadBody: function(data) {
+		
 		for(var i = 0; i < data.eventsSunday.length; i++){
 			var event = this._createEventDiv(data.eventsSunday[i], 0);
 			$(event).appendTo(this.element.find('.columnSunday'));
 		}
-		this._createEventDrag(".eventsSunday", ".columnSunday");
+		this._createEventDrag(".dragEventsSunday", ".columnSunday");
 		this._ordenarCeldas($("div.eventsSunday"));
 		
 		
@@ -159,80 +160,109 @@ $.widget('custom.applyCalendar', {
 			var event = this._createEventDiv(data.eventsMonday[i], 1);
 			$(event).appendTo(this.element.find('.columnMonday'));
 		}
-		this._createEventDrag(".eventsMonday", ".columnMonday");
+		this._createEventDrag(".dragEventsMonday", ".columnMonday");
 		this._ordenarCeldas($("div.eventsMonday"));
 		
 		for(var i = 0; i < data.eventsTuesday.length; i++){
 			var event = this._createEventDiv(data.eventsTuesday[i], 2);
 			$(event).appendTo(this.element.find('.columnTuesday'));
 		}
-		this._createEventDrag(".eventsTuesday", ".columnTuesday");
+		this._createEventDrag(".dragEventsTuesday", ".columnTuesday");
 		this._ordenarCeldas($("div.eventsTuesday"));
 		
 		for(var i = 0; i < data.eventsWednesday.length; i++){
 			var event = this._createEventDiv(data.eventsWednesday[i], 3);
 			$(event).appendTo(this.element.find('.columnWednesday'));
 		}
-		this._createEventDrag(".eventsWednesday", ".columnWednesday");
-		this._ordenarCeldas($("div.eventsWednesday"));
+		this._createEventDrag(".dragEventsWednesday", ".columnWednesday");
+		this._ordenarCeldas($(".div.eventsWednesday"));
 		
 		for(var i = 0; i < data.eventsThursday.length; i++){
 			var event = this._createEventDiv(data.eventsThursday[i], 4);
 			$(event).appendTo(this.element.find('.columnThursday'));
 		}
-		this._createEventDrag(".eventsTuesday" , ".columnTuesday");
-		this._ordenarCeldas($("div.eventsTuesday"));
+		this._createEventDrag(".dragEventsThursday" , ".columnThursday");
+		this._ordenarCeldas($("div.eventsThursday"));
 		
 		for(var i = 0; i < data.eventsFriday.length; i++){
 			var event = this._createEventDiv(data.eventsFriday[i], 5);
 			$(event).appendTo(this.element.find('.columnFriday'));
 		}
-		this._createEventDrag(".eventsFriday", ".columnFriday");
+		this._createEventDrag(".dragEventsFriday", ".columnFriday");
 		this._ordenarCeldas($("div.eventsFriday"));
 		
 		for(var i = 0; i < data.eventsSaturday.length; i++){
 			var event = this._createEventDiv(data.eventsSaturday[i], 6);
 			$(event).appendTo(this.element.find('.columnSaturday'));
 		}
-		this._createEventDrag(".eventsSaturday", ".columnSaturda");
+		this._createEventDrag(".dragEventsSaturday", ".columnSaturday");
 		this._ordenarCeldas($("div.eventsSaturday"));
 	},
 	
 	_createEventDiv : function(event, day) {
+		var clazz="";
 		
 		if(day == 0){
-			$div = $('<div class="eventsSunday"></div>');
+			clazz = "eventsSunday";
+			if(event.isOwner){
+				clazz = clazz + " dragEventsSunday";
+			}
+			$div = $('<div class="' + clazz + '"></daiv>');
 		}
 		if(day == 1){
-			$div = $('<div class="eventsMonday"></div>');
+			clazz = "eventsMonday";
+			if(event.isOwner){
+				clazz = clazz + " dragEventsMonday";
+			}
+			$div = $('<div class="' + clazz + '"></div>');
 		}
 		if(day == 2){
-			$div = $('<div class="eventsTuesday"></div>');
+			clazz = "eventsTuesday";
+			if(event.isOwner){
+				clazz = clazz + " dragEventsTuesday";
+			}
+			$div = $('<div class="'+ clazz +'"></div>');
 		}
 		if(day == 3){
-			$div = $('<div class="eventsWednesday"></div>');
+			clazz = "eventsWednesday";
+			if(event.isOwner){
+				clazz = clazz + " dragEventsWednesday";
+			}
+			$div = $('<div class="' + clazz + '"></div>');
 		}
 		if(day == 4){
-			$div = $('<div class="eventsThursday"></div>');
+			clazz = "eventsThursday";
+			if(event.isOwner){
+				clazz = clazz + " dragEventsThursday";
+			}
+			$div = $('<div class="' + clazz + '"></div>');
 		}
 		if(day == 5){
-			$div = $('<div class="eventsFriday"></div>');
+			clazz = "eventsFriday";
+			if(event.isOwner){
+				clazz = clazz + " dragEventsFriday";
+			}
+			$div = $('<div class="' + clazz + '"></div>');
 		}
 		if(day == 6){
-			$div = $('<div class="eventsSaturday"></div>');
+			clazz = "eventsSaturday";
+			if(event.isOwner){
+				clazz = clazz + " dragEventsSaturday";
+			}
+			$div = $('<div class="' + clazz + '"></div>');
 		}
 		
 		var url="";
 		
-		if(event.tipo == "meeting"){
+		if(event.type == "meeting"){
 			url = this.urlContext + "/detailMeeting.htm?id=" +  event.id;
 		}
 		
-		if(event.tipo == "privateEvent"){
+		if(event.type == "privateEvent"){
 			url = this.urlContext + "/detailPrivateEvent.htm?id=" +  event.id;
 		}
 		
-		texto = '<a href="' + url + '">' + event.name + '</a>' + '<br/>' + event.startTime + ' ' + event.endTime ;
+		texto = '<a href="' + url + '">' + event.name + '</a> ' + event.startTime + ' ' + event.endTime ;
 		$div.html(texto);
 		$inputIndex = $('<input type="hidden" class="index">');
 		$inputIndex.val(event.index);
@@ -243,14 +273,40 @@ $.widget('custom.applyCalendar', {
 		$inputDate = $('<input type="hidden" class="date">');
 		$inputDate.val(event.date);
 		$($inputDate).appendTo($div);
+		var fcolor  = this._getColorEvent(event);
 		$div.css({
-			top: event.top +"px",
-			height: event.height+"px"
+			color : "#FFFFFF",
+			top: event.top + "px",
+			height: event.height + "px",
+			backgroundColor : fcolor
 		});
 		
 		return $div;
 	},
 	
+	_getColorEvent : function(event) {
+		var color = "";
+		if(event.type == "meeting" ){
+			if(event.isOwner){
+				color = "#006633"; // verde
+			} else {
+				if(event.isGuest){
+					if(event.confirmMeeting){
+						color = "#006633"; // verde
+					} else if(event.rejectedMeeting){
+						color = "#FF0000"; //rojo
+					} else { // pendientes 
+						color = "#FFFF00";
+					}
+				}
+			}
+		}
+		if(event.type == "privateEvent"){
+			color = "#0000FF"; // azul
+		}
+		return color;
+	},
+		
 	_ordenarCeldas : function(events) {
 			var matriz = new Array(48);
 			for(var i = 0; i < matriz.length; i++){

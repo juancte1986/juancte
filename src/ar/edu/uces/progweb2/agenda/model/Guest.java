@@ -1,22 +1,31 @@
 package ar.edu.uces.progweb2.agenda.model;
 
 public class Guest {
-	
+
 	private Long id;
-	private User user; 
+	private User user;
 	private Meeting meeting;
-	private boolean confirm = false;
-	
-	public Guest(){
-		
-	}
-	
-	public boolean getConfirm() {
-		return confirm;
+	private boolean confirmMeeting = false;
+	private boolean rejectedMeeting = false;
+
+	public Guest() {
+
 	}
 
-	public void setConfirm(boolean confirm) {
-		this.confirm = confirm;
+	public boolean getConfirmMeeting() {
+		return confirmMeeting;
+	}
+
+	public void setConfirmMeeting(boolean confirmMeeting) {
+		this.confirmMeeting = confirmMeeting;
+	}
+
+	public boolean getRejectedMeeting() {
+		return rejectedMeeting;
+	}
+
+	public void setRejectedMeeting(boolean rejectedMeeting) {
+		this.rejectedMeeting = rejectedMeeting;
 	}
 
 	public Meeting getMeeting() {
@@ -42,5 +51,5 @@ public class Guest {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Controller
 public class CalendarController {
 	
-	@RequestMapping(value = "/returnCalendar")
+	@RequestMapping(value = "/calendar")
 	public String getCalendar(ModelMap model){
 		return "/jsp/calendar.jsp";
 	}

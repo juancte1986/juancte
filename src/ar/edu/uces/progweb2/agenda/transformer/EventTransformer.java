@@ -70,7 +70,7 @@ public class EventTransformer {
 				CalendarUtils.getTime(event.getStartTime()),
 				CalendarUtils.getTime(event.getEndTime())));
 		dragEvent.setIsOwner(true);
-		dragEvent.setTipo(PRIVATE_EVENT);
+		dragEvent.setType(PRIVATE_EVENT);
 		return dragEvent;
 	}
 
@@ -87,15 +87,23 @@ public class EventTransformer {
 		dragEvent.setHeight(EventUtils.getHeight(
 				CalendarUtils.getTime(meeting.getStartTime()),
 				CalendarUtils.getTime(meeting.getEndTime())));
-		if (meeting.getId() == user.getId()) {
+		if (meeting.getOwner().getId() == user.getId()) {
 			dragEvent.setIsOwner(true);
 		} else {
+			
 			dragEvent.setIsGuest(true);
-			if ((isConfirmGuest(meeting.getGuests(), user.getId()))) {
-				dragEvent.setIsConfirm(true);
+			
+			if (isConfirmGuest(meeting.getGuests(), user.getId())) {
+				dragEvent.setConfirmMeeting(true);
+			}
+			
+			if(isRejected(meeting.getGuests(), user.getId()))
+			{
+				dragEvent.setRejectedMeeting(false);
 			}
 		}
-		dragEvent.setTipo(MEETING);
+		
+		dragEvent.setType(MEETING);
 		return dragEvent;
 	}
 
@@ -192,9 +200,8 @@ public class EventTransformer {
 			form.setIsOwner(true);
 		} else {
 			form.setIsGuest(true);
-			if (isConfirmGuest(meeting.getGuests(), user.getId())) {
-				form.setIsConfirm(true);
-			}
+			form.setConfirmMeeting(this.isConfirmGuest(meeting.getGuests(), user.getId()));
+			form.setRejectedMeeting(this.isRejected(meeting.getGuests(), user.getId()));
 		}
 		return form;
 	}
@@ -202,7 +209,7 @@ public class EventTransformer {
 	private boolean isConfirmGuest(Set<Guest> guests, Long id) {
 		for (Guest guest : guests) {
 			if (guest.getUser().getId() == id) {
-				return guest.getConfirm();
+				return guest.getConfirmMeeting();
 			}
 		}
 		return false;
@@ -290,8 +297,17 @@ public class EventTransformer {
 		for (Guest guest : guests) {
 			User user = guest.getUser();
 			names.add(user.getName() + " " + user.getSurname() + " ("
-					+ user.getUser() + ")," + user.getId().toString() + "," + guest.getConfirm());
+					+ user.getUser() + ")," + user.getId().toString() + "," + guest.getConfirmMeeting() + "," + guest.getRejectedMeeting());
 		}
 		return names;
+	}
+	
+	private boolean isRejected(Set<Guest> guests, Long id) {
+		for (Guest guest : guests) {
+			if (guest.getUser().getId() == id) {
+				return guest.getRejectedMeeting();
+			}
+		}
+		return false;
 	}
 }

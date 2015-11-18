@@ -132,7 +132,7 @@ public class EventController {
 		User user = (User) model.get("user");
 		eventDTO.setUserLogin(user);
 		this.eventService.saveMeeting(eventDTO);
-		return "/returnCalendar.htm";
+		return "redirect:/calendar.htm";
 	}
 
 	@RequestMapping(value = "/savePrivateEvent")
@@ -149,7 +149,7 @@ public class EventController {
 		User user = (User) model.get("user");
 		eventDTO.setUserLogin(user);
 		this.eventService.savePrivateEvent(eventDTO);
-		return "/returnCalendar.htm";
+		return "redirect:/calendar.htm";
 	}
 	
 	@RequestMapping(value = "/detailMeeting")
@@ -188,7 +188,7 @@ public class EventController {
 		User user = (User) model.get("user");
 		eventDTO.setUserLogin(user);
 		this.eventService.updateMeeting(eventDTO);
-		return "/jsp/calendar.jsp";
+		return "redirect:/calendar.htm";
 	}
 	
 	@RequestMapping(value = "/updatePrivateEvent")
@@ -203,23 +203,27 @@ public class EventController {
 		User user = (User) model.get("user");
 		eventDTO.setUserLogin(user);
 		this.eventService.updatePrivateEvent(eventDTO);
-		return "/jsp/calendar.jsp";
+		return "redirect:/calendar.htm";
 	}
 	
 	@RequestMapping(value = "/deleteEvent")
 	public String deleteEvent(@RequestParam("id") Long id) {
 		this.eventService.delete(id);
-		return "/jsp/calendar.jsp";
+		return "redirect:/calendar.htm";
 	}
 	
 	@RequestMapping(value = "/updateConfirm")
 	public String updateConfirm(@ModelAttribute("formMeeting") FormMeetingDTO eventDTO, ModelMap model) {
 		User user = (User) model.get("user");
 		eventDTO.setUserLogin(user);
-		if(eventDTO.getIsConfirm()){
+		if(eventDTO.getConfirmMeeting()){
 			this.eventService.setConfirmGuest(eventDTO);
 		}
-		return "/returnCalendar.htm";
+		
+		if(eventDTO.getRejectedMeeting()){
+			this.eventService.setConfirmGuest(eventDTO);
+		}
+		return "redirect:/calendar.htm";
 	}
 
 }
