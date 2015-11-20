@@ -11,33 +11,24 @@ public class DargEventDTO {
 	private int index;
 	private int top;
 	private int height;
-	private boolean confirmMeeting = false;
-	private boolean rejectedMeeting = false;
+	private int state;
 	private boolean isOwner = false;
 	private boolean isGuest = false;
 
 	public String getType() {
 		return type;
 	}
+	
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public boolean isConfirmMeeting() {
-		return confirmMeeting;
-	}
-
-	public void setConfirmMeeting(boolean confirmMeeting) {
-		this.confirmMeeting = confirmMeeting;
-	}
-
-	public boolean isRejectedMeeting() {
-		return rejectedMeeting;
-	}
-
-	public void setRejectedMeeting(boolean rejectedMeeting) {
-		this.rejectedMeeting = rejectedMeeting;
 	}
 
 	public void setOwner(boolean isOwner) {

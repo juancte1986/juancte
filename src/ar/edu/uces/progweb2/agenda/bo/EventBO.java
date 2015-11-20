@@ -30,6 +30,6 @@ public interface EventBO {
 
 	public void delete(Long id);
 
-	public void setConfirmGuest(FormMeetingDTO eventDTO);
+	public void setStateGuest(FormMeetingDTO eventDTO);
 
 }

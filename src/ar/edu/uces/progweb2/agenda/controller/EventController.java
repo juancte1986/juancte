@@ -216,12 +216,8 @@ public class EventController {
 	public String updateConfirm(@ModelAttribute("formMeeting") FormMeetingDTO eventDTO, ModelMap model) {
 		User user = (User) model.get("user");
 		eventDTO.setUserLogin(user);
-		if(eventDTO.getConfirmMeeting()){
-			this.eventService.setConfirmGuest(eventDTO);
-		}
-		
-		if(eventDTO.getRejectedMeeting()){
-			this.eventService.setConfirmGuest(eventDTO);
+		if(eventDTO.getState() == 1 || eventDTO.getState() == 2){
+			this.eventService.setStateGuest(eventDTO);
 		}
 		return "redirect:/calendar.htm";
 	}

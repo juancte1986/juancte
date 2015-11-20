@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -25,13 +26,14 @@ public class EventDaoImpl extends GenericDaoImpl<Event> implements EventDao {
 		Session session =  sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(Meeting.class,"m");
 		Criterion resultDate = Restrictions.eq("m.date", date);
-		Criterion resultOwner = Restrictions.eq("m.owner.id", user.getId());
-		criteria.createAlias("guests", "g");
-		Criterion resultGuest = Restrictions.eq("g.user.id", user.getId());
-		Criterion resultOwnerOrGuest = Restrictions.or(resultOwner, resultGuest);
-		return (List<Meeting>) criteria.add(Restrictions.and(resultDate, Restrictions.or(resultOwnerOrGuest))).list();
+		Criterion resultOwner =  Restrictions.eq("m.owner.id", user.getId());
+		criteria.createAlias("m.guests", "guest");
+		Criterion resultGuest = Restrictions.eq("guest.user.id", user.getId());		
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		return (List<Meeting>) criteria.add(Restrictions.and(resultDate, Restrictions.or(resultOwner, resultGuest))).list();
+	
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PrivateEvent> getPrivateEvents(Date date, User user) {

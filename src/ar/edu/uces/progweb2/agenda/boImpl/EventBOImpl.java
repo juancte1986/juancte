@@ -111,11 +111,10 @@ public class EventBOImpl implements EventBO{
 	}
 
 	@Override
-	public void setConfirmGuest(FormMeetingDTO eventDTO) {
+	public void setStateGuest(FormMeetingDTO eventDTO) {
 		Guest guest = this.guestDao.getGuest(eventDTO);
-		guest.setConfirmMeeting(eventDTO.getConfirmMeeting());
+		guest.setState(eventDTO.getState());
 		this.guestDao.update(guest);
-		
 	}
 	
 //	private List<Guest> getGuests(String eliminateGuests){

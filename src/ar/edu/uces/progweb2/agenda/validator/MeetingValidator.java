@@ -23,6 +23,7 @@ public class MeetingValidator implements Validator{
 	public void validate(Object obj, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "errors.event.name.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "date", "errors.event.date.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "guestsIds", "errors.event.guests.empty");
 		
 		if (!errors.hasFieldErrors()) {
 			FormEventDTO event = (FormEventDTO) obj;

@@ -5,8 +5,7 @@ $.widget('custom.applyMeeting',
 		guestsNames : {},
 		isOwner : false,
 		isGuest : false,
-		isConfirmMeeting:false,
-		isRejectedMeeting:false
+		state : ""
 
 	},
 
@@ -21,14 +20,12 @@ $.widget('custom.applyMeeting',
 		this.guestsNames = this.options.guestsNames;
 		this.isOwner = this.options.isOwner;
 		this.isGuest = this.options.isGuest;
-		this.isConfirmMeeting = this.options.isConfirmMeeting;
-		this.isRejectedMeeting = this.options.isConfirmMeeting;
+		this.state = this.options.state
 		this.date = this.element.find("#datepicker");
 		this.inputGuest = this.element.find("#inputGuest");
 		this.guestsIds = this.element.find("#guestsIds");
 		this.ulGuests = this.element.find("#ulGuests");
-		this.hiddenGuestId = this.element
-				.find("#hiddenGuestId");
+		this.hiddenGuestId = this.element.find("#hiddenGuestId");
 	},
 
 	_initialize : function() {
@@ -54,21 +51,16 @@ $.widget('custom.applyMeeting',
 	},
 
 	_hideInputs : function() {
+		debugger;
 		if (this.isOwner) {
 			this.element.find(".guest").hide();
 		}
 		if (this.isGuest) {
 			this.element.find(".linkDelete").hide();// no se puede deshabilitar un href
-			this.element.find(".owner").attr("disabled",
-					"disabled");
-			if (this.isConfirmMeeting || this.isRejectedMeeting ) {
-				this.element.find(".guest").attr("disabled",
-						"disabled");
-				this.element.find("#btn-edit").attr("disabled",
-				"disabled");
-			} else {
-				this.element.find("#btn-edit").attr("disabled",
-						"disabled");
+			this.element.find(".owner").attr("disabled", "disabled");
+			if (this.state == "1" || this.state == "2" ) {
+				this.element.find(".guest").attr("disabled", "disabled");
+				this.element.find("#btn-edit").attr("disabled", "disabled");
 			}
 		}
 	},
@@ -81,12 +73,12 @@ $.widget('custom.applyMeeting',
 	},
 
 	_removeUser : function(li) {
-		li.toElement.parentElement.remove();
+		li.toElement.parentElement.parentElement.remove();
 		this._loadGuest();
 	},
 
 	_addUser : function() {
-		$('<li class="ui-state-default li-user" value="' + this.hiddenGuestId.val() + '">' + this.inputGuest.val() + '<a class="itemDelete linkDelete" href="#">Eliminar</a></li>')
+		$('<li class="ui-state-default li-user" value="' + this.hiddenGuestId.val() + '">' + this.inputGuest.val() + '<a class="itemDelete linkDelete" href="#"><span class="glyphicon glyphicon-trash"/></a><span class="glyphicon glyphicon-exclamation-sign"/></li>')
 				.appendTo(this.ulGuests);
 		this._loadGuest();
 	},
@@ -147,17 +139,17 @@ $.widget('custom.applyMeeting',
 			var guest = this.guestsNames[i].split(",");
 			var state = "";
 			
-			if(guest.confirmMeeting){
+			if(guest[2] == "1") {
 				state = '<span class="glyphicon glyphicon-ok-circle"/>';
 			}
-			else if(guest.rejectedMeeting){
+			else if (guest[2] == "2") {
 				state = '<span class="glyphicon glyphicon-ban-circle"/>';
-			} else {
+			} else if (guest[2] == "3") {
 				state = '<span class="glyphicon glyphicon-exclamation-sign"/>';
 			}
 			
 			$('<li class="ui-state-default li-user" value=' + guest[1] + '>' + guest[0]
-				+ ' <a class="itemDelete linkDelete" href="#"><span class="glyphicon glyphicon-trash"/> ' + state + '</a></li>')
+				+ ' <a class="itemDelete linkDelete" href="#"><span class="glyphicon glyphicon-trash"/></a>' + state + '</li>')
 				.appendTo(this.ulGuests);
 		}
 	},

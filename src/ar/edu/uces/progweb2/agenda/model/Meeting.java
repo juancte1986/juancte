@@ -1,12 +1,13 @@
 package ar.edu.uces.progweb2.agenda.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Meeting extends Event{
 	
 	private Hall hall ;
 	private String theme;
-	private Set<Guest> guests;
+	private Set<Guest> guests = new HashSet<Guest>();
 	
 	public Meeting(){
 		

@@ -5,27 +5,18 @@ public class Guest {
 	private Long id;
 	private User user;
 	private Meeting meeting;
-	private boolean confirmMeeting = false;
-	private boolean rejectedMeeting = false;
+	private int state = 3;
 
 	public Guest() {
 
 	}
 
-	public boolean getConfirmMeeting() {
-		return confirmMeeting;
+	public int getState() {
+		return state;
 	}
 
-	public void setConfirmMeeting(boolean confirmMeeting) {
-		this.confirmMeeting = confirmMeeting;
-	}
-
-	public boolean getRejectedMeeting() {
-		return rejectedMeeting;
-	}
-
-	public void setRejectedMeeting(boolean rejectedMeeting) {
-		this.rejectedMeeting = rejectedMeeting;
+	public void setState(int state) {
+		this.state = state;
 	}
 
 	public Meeting getMeeting() {

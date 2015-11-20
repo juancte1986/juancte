@@ -22,6 +22,6 @@ public interface EventService {
 	public void updatePrivateEvent(FormPrivateEventDTO eventDTO);
 	public void update(FormDragEventDTO drag) throws BackendException;
 	public void delete(Long id);
-	public void setConfirmGuest(FormMeetingDTO eventDTO);
+	public void setStateGuest(FormMeetingDTO eventDTO);
 	
 }

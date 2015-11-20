@@ -71,7 +71,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public void setConfirmGuest(FormMeetingDTO eventDTO) {
-		this.eventBO.setConfirmGuest(eventDTO);
+	public void setStateGuest(FormMeetingDTO eventDTO) {
+		this.eventBO.setStateGuest(eventDTO);
 	}
 }

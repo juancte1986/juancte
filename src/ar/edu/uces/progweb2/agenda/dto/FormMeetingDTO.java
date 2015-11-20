@@ -1,39 +1,29 @@
 package ar.edu.uces.progweb2.agenda.dto;
 
 public class FormMeetingDTO extends FormEventDTO {
-
+	
 	private String theme;
 	private Long hallId;
 	private String guestsNames;
 	private String guestsIds;
-	private boolean confirmMeeting = false;
-	private boolean rejectedMeeting = false;
+	private int state;
 	private boolean isOwner = false;
 	private boolean isGuest = false;
 	
-
-	public boolean getRejectedMeeting() {
-		return rejectedMeeting;
-	}
-
-	public void setRejectedMeeting(boolean rejectedMeeting) {
-		this.rejectedMeeting = rejectedMeeting;
-	}
-
-	public boolean getConfirmMeeting() {
-		return confirmMeeting;
-	}
-
-	public void setConfirmMeeting(boolean confirmMeeting) {
-		this.confirmMeeting = confirmMeeting;
-	}
-
 	public String getGuestsIds() {
 		return guestsIds;
 	}
 
 	public void setGuestsIds(String guestsIds) {
 		this.guestsIds = guestsIds;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
 	}
 
 	public boolean getIsGuest() {

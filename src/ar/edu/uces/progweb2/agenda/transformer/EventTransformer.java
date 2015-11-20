@@ -92,15 +92,7 @@ public class EventTransformer {
 		} else {
 			
 			dragEvent.setIsGuest(true);
-			
-			if (isConfirmGuest(meeting.getGuests(), user.getId())) {
-				dragEvent.setConfirmMeeting(true);
-			}
-			
-			if(isRejected(meeting.getGuests(), user.getId()))
-			{
-				dragEvent.setRejectedMeeting(false);
-			}
+			dragEvent.setState(this.getStateGuest(meeting.getGuests(), user.getId()));
 		}
 		
 		dragEvent.setType(MEETING);
@@ -200,19 +192,20 @@ public class EventTransformer {
 			form.setIsOwner(true);
 		} else {
 			form.setIsGuest(true);
-			form.setConfirmMeeting(this.isConfirmGuest(meeting.getGuests(), user.getId()));
-			form.setRejectedMeeting(this.isRejected(meeting.getGuests(), user.getId()));
+			form.setState(this.getStateGuest(meeting.getGuests(), user.getId()));
 		}
 		return form;
 	}
 
-	private boolean isConfirmGuest(Set<Guest> guests, Long id) {
+	private int getStateGuest(Set<Guest> guests, Long id) {
+		int state = 0;
 		for (Guest guest : guests) {
 			if (guest.getUser().getId() == id) {
-				return guest.getConfirmMeeting();
+				state =  guest.getState();
 			}
 		}
-		return false;
+		
+		return state;
 	}
 
 	public Event tranformToEvent(FormDragEventDTO drag) {
@@ -297,17 +290,8 @@ public class EventTransformer {
 		for (Guest guest : guests) {
 			User user = guest.getUser();
 			names.add(user.getName() + " " + user.getSurname() + " ("
-					+ user.getUser() + ")," + user.getId().toString() + "," + guest.getConfirmMeeting() + "," + guest.getRejectedMeeting());
+					+ user.getUser() + ")," + user.getId().toString() + "," + guest.getState());
 		}
 		return names;
-	}
-	
-	private boolean isRejected(Set<Guest> guests, Long id) {
-		for (Guest guest : guests) {
-			if (guest.getUser().getId() == id) {
-				return guest.getRejectedMeeting();
-			}
-		}
-		return false;
 	}
 }

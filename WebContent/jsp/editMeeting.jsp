@@ -72,9 +72,12 @@
 				<br />
 				<!--Solo si sos invitado, si se pone en true, no se modifica mas-->
 				
-				<form:button class="guest" path="confirMeeting" value="true" ><fmt:message key="label.confirm" /></form:button>
-				<form:button calss="guest" path="rejectedMeeting" value="true" ><fmt:message key="label.rejected" /></form:button>
+				<fmt:message key="label.confirm" />
 				
+				SI<form:radiobutton class="guest" path="state" value="1"/>
+				NO<form:radiobutton class="guest" path="state" value="2"/>
+				
+				<br />
 				<!--invitados-->
 				<fmt:message key="label.guests" />
 				<!-- se ingrea el user para el autocompletar -->
@@ -111,8 +114,7 @@
 						guestsNames: ${formMeeting.guestsNames},
 						isOwner:${formMeeting.isOwner},
 						isGuest:${formMeeting.isGuest},
-						isConfirmMeeting:${formMeeting.confirmMeeting },
-						isRejectedMeeting:${formMeeting.rejectedMeeting}
+						state:${formMeeting.state}
 					});
 				});
 		</script>

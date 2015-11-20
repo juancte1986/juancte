@@ -11,7 +11,7 @@ $.widget('custom.applyCalendar', {
 
 	_bindVars : function() {
 		this.urlContext = this.options.urlContext;
-		this.table = this.element.find(".table");
+		this.table = this.element.find("#table");
 		this.week = new Array();
 		this.events = new Array();
 		this.drag = new Object();
@@ -20,6 +20,11 @@ $.widget('custom.applyCalendar', {
 
 	_initialize : function() {
 		this._loadEventsCallback(this._getCurrentDate());
+		this._applyScroll();
+	},
+	
+	_applyScroll : function() {
+		this.table.scrollTop(300);
 	},
 	
 	_createEventDrag : function(clazz, column) {
@@ -65,15 +70,11 @@ $.widget('custom.applyCalendar', {
 	},
 	_processEvents : function(data) {
 		if(!data.error){
-			var clazz = this.drag.attr('class').split(" ");
-			this.drag.removeClass(clazz[0]);
-			this.drag.removeClass(clazz[1]);
-			this.drag.removeClass(clazz[2]);		
-			this._ordenarCeldaActual(this.drag, clazz[0]);
-			this.drag.addClass(clazz[0]);
-			this.drag.addClass(clazz[1]);
-			this.drag.addClass(clazz[2]);
-			this._ordenarCeldas($("div."+clazz[0]));
+			debugger;
+			var clazz = this._getClass(this.drag.attr('class').split(" "));
+			this._ordenarCeldaActual(this.drag, clazz);
+			this._ordenarCeldas($("div." + clazz));
+			this.drag.html(this._getDetailEvent(this.drag));
 			alert("El horario se modifico correctamente");
 		} else {
 			alert(data.message);
@@ -82,6 +83,34 @@ $.widget('custom.applyCalendar', {
 				left: this.dragPosition.left +"px"
 			});
 		}
+	},
+	
+	_getClass : function(clazz) {
+		var dragClass  ="";
+		for(var i = 0; i < clazz.length; i++){
+			if(clazz[i] == "eventsSunday"){
+				dragClass = clazz[i];
+			}
+			if(clazz[i] == "eventsMonday"){
+				dragClass = clazz[i];
+			}
+			if(clazz[i] == "eventsTuesday"){
+				dragClass = clazz[i];
+			}
+			if(clazz[i] == "eventsWednesday"){
+				dragClass = clazz[i];
+			}
+			if(clazz[i] == "eventsThursday"){
+				dragClass = clazz[i];
+			}
+			if(clazz[i] == "eventsFriday"){
+				dragClass = clazz[i];
+			}
+			if(clazz[i] == "eventsSuturday"){
+				dragClass = clazz[i];
+			}
+		}
+		return dragClass;
 	},
 	
 	_bindEvents : function() {
@@ -137,66 +166,99 @@ $.widget('custom.applyCalendar', {
 	
 	_loadThead: function(week) {
 		 this.week = week;
-		 this.table.find("#sundayId").html('<div>'+this.week[0]+'</div>');
-		 this.table.find("#mondayId").html('<div>'+this.week[1]+'</div>');
-		 this.table.find("#tuesdayId").html('<div>'+this.week[2]+'</div>');
-		 this.table.find("#wednesdayId").html('<div>'+this.week[3]+'</div>');
-		 this.table.find("#thursdayId").html('<div>'+this.week[4]+'</div>');
-		 this.table.find("#fridayId").html('<div>'+this.week[5]+'</div>');
-		 this.table.find("#saturdayId").html('<div>'+this.week[5]+'</div>');
+		 this.table.find("#sundayId").html('<div>' + this.week[0] + '</div>');
+		 this.table.find("#mondayId").html('<div>' + this.week[1] + '</div>');
+		 this.table.find("#tuesdayId").html('<div>' + this.week[2] + '</div>');
+		 this.table.find("#wednesdayId").html('<div>' + this.week[3] + '</div>');
+		 this.table.find("#thursdayId").html('<div>' + this.week[4] + '</div>');
+		 this.table.find("#fridayId").html('<div>' + this.week[5] + '</div>');
+		 this.table.find("#saturdayId").html('<div>' + this.week[6] + '</div>');
 	},
 	
 	_loadBody: function(data) {
 		
-		for(var i = 0; i < data.eventsSunday.length; i++){
-			var event = this._createEventDiv(data.eventsSunday[i], 0);
-			$(event).appendTo(this.element.find('.columnSunday'));
+		if(data.eventsSunday.length > 0){
+			for(var i = 0; i < data.eventsSunday.length; i++){
+				var event = this._createEventDiv(data.eventsSunday[i], 0);
+				$(event).appendTo(this.element.find('.columnSunday'));
+			}
+			this._createEventDrag(".dragEventsSunday", ".columnSunday");
+			this._ordenarCeldas($("div.eventsSunday"));
+		} else {
+			this._removeEvents($("div.eventsSunday"));
 		}
-		this._createEventDrag(".dragEventsSunday", ".columnSunday");
-		this._ordenarCeldas($("div.eventsSunday"));
 		
-		
-		for(var i = 0; i < data.eventsMonday.length; i++){
-			var event = this._createEventDiv(data.eventsMonday[i], 1);
-			$(event).appendTo(this.element.find('.columnMonday'));
+		if(data.eventsMonday.length > 0){
+			for(var i = 0; i < data.eventsMonday.length; i++){
+				var event = this._createEventDiv(data.eventsMonday[i], 1);
+				$(event).appendTo(this.element.find('.columnMonday'));
+			}
+			this._createEventDrag(".dragEventsMonday", ".columnMonday");
+			this._ordenarCeldas($("div.eventsMonday"));
+		} else {
+			this._removeEvents($("div.eventsMonday"));
 		}
-		this._createEventDrag(".dragEventsMonday", ".columnMonday");
-		this._ordenarCeldas($("div.eventsMonday"));
 		
-		for(var i = 0; i < data.eventsTuesday.length; i++){
-			var event = this._createEventDiv(data.eventsTuesday[i], 2);
-			$(event).appendTo(this.element.find('.columnTuesday'));
+		if(data.eventsTuesday.length > 0){
+			for(var i = 0; i < data.eventsTuesday.length; i++){
+				var event = this._createEventDiv(data.eventsTuesday[i], 2);
+				$(event).appendTo(this.element.find('.columnTuesday'));
+			}
+			this._createEventDrag(".dragEventsTuesday", ".columnTuesday");
+			this._ordenarCeldas($("div.eventsTuesday"));
+		} else{
+			this._removeEvents($("div.eventsTuesday"));
 		}
-		this._createEventDrag(".dragEventsTuesday", ".columnTuesday");
-		this._ordenarCeldas($("div.eventsTuesday"));
 		
-		for(var i = 0; i < data.eventsWednesday.length; i++){
-			var event = this._createEventDiv(data.eventsWednesday[i], 3);
-			$(event).appendTo(this.element.find('.columnWednesday'));
+		if(data.eventsWednesday.length > 0){
+			for(var i = 0; i < data.eventsWednesday.length; i++){
+				var event = this._createEventDiv(data.eventsWednesday[i], 3);
+				$(event).appendTo(this.element.find('.columnWednesday'));
+			}
+			this._createEventDrag(".dragEventsWednesday", ".columnWednesday");
+			this._ordenarCeldas($(".div.eventsWednesday"));
+		} else {
+			this._removeEvents($("div.eventsWednesday"));
 		}
-		this._createEventDrag(".dragEventsWednesday", ".columnWednesday");
-		this._ordenarCeldas($(".div.eventsWednesday"));
 		
-		for(var i = 0; i < data.eventsThursday.length; i++){
-			var event = this._createEventDiv(data.eventsThursday[i], 4);
-			$(event).appendTo(this.element.find('.columnThursday'));
+		if(data.eventsThursday.length > 0){
+			for(var i = 0; i < data.eventsThursday.length; i++){
+				var event = this._createEventDiv(data.eventsThursday[i], 4);
+				$(event).appendTo(this.element.find('.columnThursday'));
+			}
+			this._createEventDrag(".dragEventsThursday" , ".columnThursday");
+			this._ordenarCeldas($("div.eventsThursday"));
+		} else {
+			this._removeEvents($("div.eventsThursday"));
 		}
-		this._createEventDrag(".dragEventsThursday" , ".columnThursday");
-		this._ordenarCeldas($("div.eventsThursday"));
 		
-		for(var i = 0; i < data.eventsFriday.length; i++){
-			var event = this._createEventDiv(data.eventsFriday[i], 5);
-			$(event).appendTo(this.element.find('.columnFriday'));
+		if(data.eventsFriday.length > 0){
+			for(var i = 0; i < data.eventsFriday.length; i++){
+				var event = this._createEventDiv(data.eventsFriday[i], 5);
+				$(event).appendTo(this.element.find('.columnFriday'));
+			}
+			this._createEventDrag(".dragEventsFriday", ".columnFriday");
+			this._ordenarCeldas($("div.eventsFriday"));
+		} else {
+			this._removeEvents($("div.eventsFriday"));
 		}
-		this._createEventDrag(".dragEventsFriday", ".columnFriday");
-		this._ordenarCeldas($("div.eventsFriday"));
 		
-		for(var i = 0; i < data.eventsSaturday.length; i++){
-			var event = this._createEventDiv(data.eventsSaturday[i], 6);
-			$(event).appendTo(this.element.find('.columnSaturday'));
+		if(data.eventsSaturday.length > 0){
+			for(var i = 0; i < data.eventsSaturday.length; i++){
+				var event = this._createEventDiv(data.eventsSaturday[i], 6);
+				$(event).appendTo(this.element.find('.columnSaturday'));
+			}
+			this._createEventDrag(".dragEventsSaturday", ".columnSaturday");
+			this._ordenarCeldas($("div.eventsSaturday"));
+		} else {
+			this._removeEvents($("div.eventsSaturday"));
 		}
-		this._createEventDrag(".dragEventsSaturday", ".columnSaturday");
-		this._ordenarCeldas($("div.eventsSaturday"));
+	},
+	
+	_removeEvents : function(events){
+		for(var i = 0 ; i < events.length; i++ ){
+			events[i].remove();
+		}
 	},
 	
 	_createEventDiv : function(event, day) {
@@ -252,18 +314,7 @@ $.widget('custom.applyCalendar', {
 			$div = $('<div class="' + clazz + '"></div>');
 		}
 		
-		var url="";
-		
-		if(event.type == "meeting"){
-			url = this.urlContext + "/detailMeeting.htm?id=" +  event.id;
-		}
-		
-		if(event.type == "privateEvent"){
-			url = this.urlContext + "/detailPrivateEvent.htm?id=" +  event.id;
-		}
-		
-		texto = '<a href="' + url + '">' + event.name + '</a> ' + event.startTime + ' ' + event.endTime ;
-		$div.html(texto);
+		$div.html(this._getDetailEvent(event));
 		$inputIndex = $('<input type="hidden" class="index">');
 		$inputIndex.val(event.index);
 		$($inputIndex).appendTo($div);
@@ -284,6 +335,21 @@ $.widget('custom.applyCalendar', {
 		return $div;
 	},
 	
+	_getDetailEvent : function (event){
+		var texto = "";
+		var url="";
+		debugger;
+		if(event.type == "meeting"){
+			url = this.urlContext + "/detailMeeting.htm?id=" +  event.id;
+		}
+		if(event.type == "privateEvent"){
+			url = this.urlContext + "/detailPrivateEvent.htm?id=" +  event.id;
+		}
+		texto = '<a style="color:white;" href="' + url + '">' + event.name + '</a> ' + event.startTime + ' ' + event.endTime ;
+		
+		return texto;
+	},
+	
 	_getColorEvent : function(event) {
 		var color = "";
 		if(event.type == "meeting" ){
@@ -291,9 +357,9 @@ $.widget('custom.applyCalendar', {
 				color = "#006633"; // verde
 			} else {
 				if(event.isGuest){
-					if(event.confirmMeeting){
+					if(event.state == "1"){
 						color = "#006633"; // verde
-					} else if(event.rejectedMeeting){
+					} else if(event.state == "2"){
 						color = "#FF0000"; //rojo
 					} else { // pendientes 
 						color = "#FFFF00";
